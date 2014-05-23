@@ -17,8 +17,7 @@ namespace ImageViewer
         public Form1()
         {
             InitializeComponent();
-            openFileDialog1.Filter = "JPG(*.jpg)|*.jpg|모든 파일(*.*)|*.*";
-            openFileDialog2.Filter = "XML(*.xml)|*.xml|모든 파일(*.*)|*.*";
+            openFileDialog1.Filter = "JPG/XML(*.jpg,*.xml)|*.jpg;*.xml|모든 파일(*.*)|*.*";
             saveFileDialog1.Filter = "XML(*.xml)|*.xml|모든 파일(*.*)|*.*";
         }
 
@@ -27,24 +26,57 @@ namespace ImageViewer
             if (!(openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK))
                 return;
 
-            Image img = Image.FromFile(openFileDialog1.FileName);
-            
-            while (img.Width > 1000 || img.Height > 1000)
+            try
             {
-                img = new Bitmap(img, new Size(img.Width / 2, img.Height / 2));
-            }
+                //엑셀파일
+                if (openFileDialog1.FileName.EndsWith(".xml"))
+                {
+                    StreamReader sr = new StreamReader(openFileDialog1.FileName);
+                    XmlSerializer xs = new XmlSerializer(typeof(ImageData));
 
-            pictureBox1.Width = img.Width;
-            pictureBox1.Height = img.Height;
-            pictureBox1.Image = img;
-            
+                    ImageData semi = (ImageData)xs.Deserialize(sr);
+                    Bitmap bmp = new Bitmap(semi.width, semi.height);
+
+                    for (int i = 0; i < semi.height; i++)
+                        for (int j = 0; j < semi.width; j++)
+                        {
+                            int temp = semi.pixel[i * semi.width + j];
+                            bmp.SetPixel(j, i, System.Drawing.Color.FromArgb(temp));
+                        }
+
+                    pictureBox1.Width = bmp.Width;
+                    pictureBox1.Height = bmp.Height;
+                    pictureBox1.Image = bmp;
+
+                    sr.Close();
+                }
+                else //그림파일
+                {
+                    Image img = Image.FromFile(openFileDialog1.FileName);
+
+                    while (img.Width > 1000 || img.Height > 1000)
+                    {
+                        img = new Bitmap(img, new Size(img.Width / 2, img.Height / 2));
+                    }
+
+                    pictureBox1.Width = img.Width;
+                    pictureBox1.Height = img.Height;
+                    pictureBox1.Image = img;
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             if(!(saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK))
                 return;
-
+            else if(pictureBox1.Image == null){
+                return;
+            }
+            
             Bitmap bmp = new Bitmap(pictureBox1.Image); //그림 파일을 저장
             ImageData semi = new ImageData();
             semi.SetSize(bmp.Width,bmp.Height);
@@ -63,28 +95,7 @@ namespace ImageViewer
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (!(openFileDialog2.ShowDialog() == System.Windows.Forms.DialogResult.OK))
-                return;
-
-            StreamReader sr = new StreamReader(openFileDialog2.FileName);
-            XmlSerializer xs = new XmlSerializer(typeof(ImageData));
-
-            ImageData semi = (ImageData) xs.Deserialize(sr);
-            Bitmap bmp = new Bitmap(semi.width,semi.height);
-
-            for (int i = 0; i < semi.height; i++)
-                for (int j = 0; j < semi.width; j++){
-                    int temp = semi.pixel[i * semi.width + j];
-                    bmp.SetPixel(j, i, System.Drawing.Color.FromArgb(temp));
-                }
-
-            pictureBox1.Width = bmp.Width;
-            pictureBox1.Height = bmp.Height;
-            pictureBox1.Image = bmp;
-
-            /*
-             * 확장자명 손보기!
-             */
+            pictureBox1.Image = null;
         }
     }
 }
