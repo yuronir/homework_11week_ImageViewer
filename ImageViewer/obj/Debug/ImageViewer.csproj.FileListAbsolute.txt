@@ -1,0 +1,9 @@
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\bin\Debug\ImageViewer.exe.config
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\bin\Debug\ImageViewer.exe
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\bin\Debug\ImageViewer.pdb
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\obj\Debug\ImageViewer.csprojResolveAssemblyReference.cache
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\obj\Debug\ImageViewer.Form1.resources
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\obj\Debug\ImageViewer.Properties.Resources.resources
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\obj\Debug\ImageViewer.csproj.GenerateResource.Cache
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\obj\Debug\ImageViewer.exe
+D:\LYE\NEXT\Pr-Practice\workspace\ImageViewer\ImageViewer\obj\Debug\ImageViewer.pdb
